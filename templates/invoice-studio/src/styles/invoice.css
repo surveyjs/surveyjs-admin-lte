@@ -1,0 +1,89 @@
+/* Invoice layout modeled on the AdminLTE 3 invoice example.
+   AdminLTE 4 ships no .invoice styles, so they live here. */
+
+.invoice {
+  position: relative;
+  background: var(--bs-body-bg);
+  border: 1px solid var(--bs-border-color);
+}
+.invoice-heading {
+  padding-bottom: 0.75rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid var(--bs-border-color);
+}
+.invoice-heading small {
+  font-size: 0.875rem;
+  line-height: 1.75rem;
+  color: var(--bs-secondary-color);
+}
+.invoice-info {
+  margin-bottom: 1rem;
+}
+.invoice-info address {
+  white-space: pre-line;
+}
+.invoice-notes {
+  padding: 0.75rem;
+  margin-top: 0.5rem;
+  white-space: pre-line;
+  background: var(--bs-tertiary-bg);
+  border-radius: var(--bs-border-radius);
+}
+
+/* Card header with tabs on the left and tools on the right. */
+.invoice-card-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.invoice-card-header::after {
+  content: none;
+}
+.invoice-card-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Print only the invoice document: no navigation, cards, or buttons. */
+.print-only {
+  display: none;
+}
+@media print {
+  @page {
+    margin: 14mm;
+    size: A4;
+  }
+  .app-sidebar,
+  .app-header,
+  .app-footer,
+  .app-content-header,
+  .app-content,
+  .sidebar-overlay,
+  .skip-link,
+  dialog {
+    display: none !important;
+  }
+  body,
+  .app-wrapper,
+  .app-main {
+    display: block !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #fff !important;
+  }
+  .print-only {
+    display: block;
+  }
+  .print-only .invoice {
+    border: 0;
+    padding: 0 !important;
+  }
+  .print-only tr {
+    break-inside: avoid;
+  }
+}
