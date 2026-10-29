@@ -17,6 +17,10 @@ export default function Sidebar({
           <img
             src="./favicon.svg"
             alt=""
+            // Explicit size: the SVG has no intrinsic width, so without it the brand
+            // link is sized as if the image were 0px wide and the text overflows.
+            width={33}
+            height={33}
             className="brand-image opacity-75 shadow"
           />
           <span className="brand-text fw-light">AdminLTE + SurveyJS</span>

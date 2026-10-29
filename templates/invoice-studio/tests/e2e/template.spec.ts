@@ -147,3 +147,18 @@ test('a saved draft with corrupt line items shows an alert and the example invoi
   await expect(page.locator('.invoice-total')).toHaveText('$5,087.75')
   expect(errors).toEqual([])
 })
+
+test('sidebar brand is centered and fits inside the sidebar', async ({ page }, testInfo) => {
+  await page.goto('/')
+  if (testInfo.project.name === 'mobile')
+    await page.getByRole('button', { name: 'Toggle navigation' }).click()
+  const box = async (selector: string) =>
+    (await page.locator(selector).boundingBox())!
+  const brand = await box('.sidebar-brand')
+  const link = await box('.sidebar-brand .brand-link')
+  const text = await box('.sidebar-brand .brand-text')
+  const brandCenter = brand.x + brand.width / 2
+  const linkCenter = link.x + link.width / 2
+  expect(Math.abs(linkCenter - brandCenter)).toBeLessThanOrEqual(1)
+  expect(text.x + text.width).toBeLessThanOrEqual(link.x + link.width + 0.5)
+})
