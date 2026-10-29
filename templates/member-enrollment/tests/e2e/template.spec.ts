@@ -75,6 +75,7 @@ test('renders the AdminLTE shell without errors and fits the viewport', async ({
   await expect(page).toHaveTitle('Member Enrollment | AdminLTE + SurveyJS')
   await expect(page.locator('.app-header')).toBeVisible()
   await expect(page.locator('.app-footer')).toBeVisible()
+  await expect(page.getByRole('heading', { level: 1 })).toHaveCount(1)
   await expect(
     page.getByRole('heading', { name: 'Member Enrollment', exact: true }),
   ).toBeVisible()

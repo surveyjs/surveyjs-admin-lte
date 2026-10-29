@@ -46,6 +46,18 @@ export function readDraft(): StorageResult<SavedDraft | null> {
       !Number.isFinite(Date.parse(parsed.savedAt))
     )
       throw new Error('Invalid draft')
+    // SurveyJS's dynamic panel cannot load non-object line items, so reject them here.
+    const { items } = parsed.data as FormData
+    if (
+      items !== undefined &&
+      !(
+        Array.isArray(items) &&
+        items.every(
+          (item) => item && typeof item === 'object' && !Array.isArray(item),
+        )
+      )
+    )
+      throw new Error('Invalid line items')
     return {
       value: {
         data: safeData(parsed.data as FormData),

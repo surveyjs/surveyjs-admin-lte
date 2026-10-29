@@ -136,7 +136,7 @@ export default function InvoiceStudio() {
               <div className="card card-primary card-outline mb-4">
                 <div className="card-header invoice-card-header">
                   <ul className="nav nav-tabs card-header-tabs" role="tablist">
-                    <li className="nav-item">
+                    <li className="nav-item" role="presentation">
                       <button
                         type="button"
                         role="tab"
@@ -148,7 +148,7 @@ export default function InvoiceStudio() {
                         Editor
                       </button>
                     </li>
-                    <li className="nav-item">
+                    <li className="nav-item" role="presentation">
                       <button
                         type="button"
                         role="tab"

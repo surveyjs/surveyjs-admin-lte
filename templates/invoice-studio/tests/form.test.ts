@@ -58,6 +58,16 @@ describe('local drafts', () => {
     expect(JSON.parse(stored).data).not.toHaveProperty('total')
     model.dispose()
   })
+  it('rejects a parseable draft whose line items are not objects', () => {
+    for (const items of [[null], 'oops', [{}, 'x'], [[1]]]) {
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ data: { items }, savedAt: '2026-10-29T10:00:00.000Z' }),
+      )
+      expect(readDraft().value).toBeNull()
+      expect(readDraft().error).toBeTruthy()
+    }
+  })
   it('handles malformed data and storage failures without throwing', () => {
     localStorage.setItem(STORAGE_KEY, '{broken')
     expect(readDraft().error).toBeTruthy()
