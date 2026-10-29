@@ -10,7 +10,7 @@ export default function ContentHeader({
       <div className="container-fluid">
         <div className="row">
           <div className="col-sm-6">
-            <h3 className="mb-0">{title}</h3>
+            <h1 className="h3 mb-0">{title}</h1>
           </div>
           <div className="col-sm-6">
             <ol className="breadcrumb float-sm-end">

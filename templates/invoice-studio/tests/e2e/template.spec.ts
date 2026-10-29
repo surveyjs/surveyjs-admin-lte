@@ -34,6 +34,11 @@ test('invoice rows recalculate, persist, preview, and print without navigation',
   await expect(page.getByRole('status')).toContainText('Invoice saved')
   await page.reload()
   await expect(total).toHaveText('$5,899.63')
+  await expect(page.getByRole('tablist')).toMatchAriaSnapshot(`
+    - tablist:
+      - tab "Editor" [selected]
+      - tab "Preview"
+  `)
   await page.getByRole('tab', { name: 'Preview', exact: true }).click()
   await expect(page.locator('.app-content .invoice')).toContainText(
     'Brand strategy workshop',
@@ -83,6 +88,7 @@ test('renders the AdminLTE shell without errors and fits the viewport', async ({
   await expect(page).toHaveTitle('Invoice Studio | AdminLTE + SurveyJS')
   await expect(page.locator('.app-header')).toBeVisible()
   await expect(page.locator('.app-footer')).toBeVisible()
+  await expect(page.getByRole('heading', { level: 1 })).toHaveCount(1)
   const sidebar = page.locator('.app-sidebar')
   await expect(
     sidebar.getByRole('link', { name: 'Original AdminLTE page' }),
