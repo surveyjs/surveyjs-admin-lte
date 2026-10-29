@@ -1,12 +1,13 @@
 import { defineConfig } from '@playwright/test'
 
+// Smoke test for the assembled demo site (npm run build:site), served under /demo/.
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
   workers: 2,
   reporter: 'list',
   use: {
-    baseURL: 'http://127.0.0.1:4173',
+    baseURL: 'http://127.0.0.1:4180/demo/',
     trace: 'retain-on-failure',
     reducedMotion: 'reduce',
   },
@@ -26,8 +27,8 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'npm run preview -- --host 127.0.0.1 --port 4173 --strictPort',
-    url: 'http://127.0.0.1:4173',
+    command: 'node scripts/serve-site.mjs 4180',
+    url: 'http://127.0.0.1:4180/health',
     reuseExistingServer: !process.env.CI,
   },
 })

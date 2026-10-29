@@ -1,71 +1,64 @@
-# SurveyJS Admin: AdminLTE Integration
+# AdminLTE + SurveyJS templates
 
-Three independently designed admin workflows in one local React application. The shell uses the real AdminLTE 4 package and Bootstrap 5; every business-form input, validation rule, repeating invoice item, and invoice calculation is powered by the free SurveyJS Form Library. No paid SurveyJS packages, server, accounts, payment processor, or cloud services are required.
+Three [AdminLTE 4](https://adminlte.io) templates whose forms are built with the free, MIT-licensed [SurveyJS Form Library](https://surveyjs.io/form-library). Each one rebuilds an AdminLTE example page: stock AdminLTE layout and styling, with SurveyJS handling fields, validation, repeatable items, and calculations declared in JSON.
 
-## Run locally
+Each template is a standalone React + Vite project. Copy any folder out of `templates/` and it installs, builds, and runs on its own, like a downloaded gallery template.
 
-Requires Node.js 22.12+ (tested with Node.js 24) and npm. From this repository's root:
+| Template | Based on AdminLTE example | What SurveyJS adds |
+| --- | --- | --- |
+| [Project Brief](templates/project-brief/) | [Project Add](https://adminlte.io/themes/v3/pages/examples/project-add.html) | Validation, collapsible panels, draft saving with reload/cancel/reset, live budget summary |
+| [Member Enrollment](templates/member-enrollment/) | [Validation](https://adminlte.io/themes/v3/pages/forms/validation.html) | Email, password-length and consent rules as SurveyJS validators; simulated submission that never stores the password |
+| [Invoice Studio](templates/invoice-studio/) | [Invoice](https://adminlte.io/themes/v3/pages/examples/invoice.html) | Editable invoice with repeatable line items, tax/shipping/total expressions, preview, and print |
 
-```powershell
-npm ci
-npm run dev -- --host 127.0.0.1 --port 5173
+The original AdminLTE pages are references for the workflows. Their demo content, images, and payment logos are not copied. The original Project Add and Invoice pages have Save, Submit Payment, and Generate PDF buttons that do nothing; these templates do not pretend to process payments or generate PDFs directly (Invoice Studio prints through the browser, which can save as PDF).
+
+## Run one template
+
+Requires Node.js 22.12+.
+
+```bash
+cd templates/project-brief    # or member-enrollment, invoice-studio
+npm install
+npm run dev
 ```
 
-Open **http://127.0.0.1:5173/**. Vite chooses the next available port if 5173 is occupied; use the URL it prints. Keep the same host and port when testing saved drafts, since browser storage is origin-specific. Stop with Ctrl+C.
+Each template's README lists its commands, file layout, and behavior.
 
-| Local page                                              | Original AdminLTE template                                                   | What to compare                                                                                                 |
-| ------------------------------------------------------- | ---------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| [Project Brief](http://127.0.0.1:5173/#/projects)       | [Project Add](https://adminlte.io/themes/v3/pages/examples/project-add.html) | Project scope, status, client, lead, budget, spent amount, duration, collapsible sections                       |
-| [Member Enrollment](http://127.0.0.1:5173/#/enrollment) | [Validation](https://adminlte.io/themes/v3/pages/forms/validation.html)      | Required email, valid email syntax, password minimum, explicit terms acceptance, successful submission feedback |
-| [Invoice Studio](http://127.0.0.1:5173/#/invoices)      | [Invoice](https://adminlte.io/themes/v3/pages/examples/invoice.html)         | Sender/recipient, invoice metadata, item references, quantities, totals, tax, shipping, printable output        |
+## Work on all templates
 
-Each page includes a **Reference Example** link; **Original templates** opens all reference links. The original pages are AdminLTE 3 examples used as workflow references, not visual designs to copy. SurveyJS Admin uses new titles, a different layout, original fictional content, and three restrained accent themes.
-
-## Try the workflows
-
-- **Project Brief:** use Load example or enter your own fictional project. Save draft permits incomplete input; Save project validates first. Reload to restore the saved record. Cancel returns to the last saved version. The reset icon clears the form and removes its saved draft. Overspend is permitted and highlighted in the remaining budget. Duration is explicitly in weeks.
-- **Member Enrollment:** test missing fields, an invalid email, a password shorter than five characters, and missing consent. Load example fills only fictional identity information, never a password or consent. Complete enrollment displays a simulation result and clears the password. Demo terms opens a real dialog. No account is created, and no enrollment data is persisted or submitted to a server. The five-character minimum matches the reference; it is not a recommended production policy.
-- **Invoice Studio:** starts with a fictional, arithmetically consistent invoice. Edit parties/dates, add or remove items, and change quantities/prices/tax/shipping. Preview and Print / PDF use a separate invoice layout without navigation. Choose your browser's Save as PDF destination to produce a PDF. No direct PDF download or payment processing is claimed.
-
-Only one project and one invoice draft are stored per browser origin. Saves are explicit, not automatic. Leaving a page with unsaved edits asks for confirmation. Use fictional, nonsensitive information: localStorage is not encrypted. Storage failures produce visible errors instead of false save confirmations.
-
-## Original behavior versus additions
-
-| Workflow   | Original behavior retained                                            | Added by SurveyJS Admin                                                                                             |
-| ---------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| Project    | Editable project/budget fields and collapsible groups                 | Validation, browser persistence, reload/reset/cancel, live budget summary, additional planning/in-progress statuses |
-| Enrollment | Email/password/consent validation and success feedback                | Full name and role, inline result screen, actual demo-terms dialog, password clearing                               |
-| Invoice    | Invoice information, item table, tax/shipping/total display, printing | SurveyJS editor, repeatable items, calculated values, date/range validation, saved drafts, live preview             |
-
-The original project Save/Cancel and invoice Submit Payment/Generate PDF buttons do not implement those operations. SurveyJS Admin does not imitate working payment or direct-PDF actions where none existed. The original invoice's hard-coded totals do not reconcile; its amounts are not reused. See [the primary-source research](docs/template-research.md).
-
-### Invoice calculation rules
-
-Currency is USD. Each line amount is `round(quantity * unitPrice, 2)`. Subtotal is the sum of rounded line amounts; tax is `round(subtotal * taxRate / 100, 2)`. Shipping is added after tax; the total is rounded to two decimal places. These are SurveyJS expressions, not a second React calculation engine. Quantity must be at least one; prices/shipping must be nonnegative and tax must be between 0 and 100. Fractional quantities are allowed. There is a 30-line limit. This is a demonstration, not an accounting/tax engine.
-
-## Integration details
-
-- AdminLTE **4.10.0**, Bootstrap **5.3.8**, matching `survey-core` / `survey-react-ui` **3.2.3**. Exact installed versions are captured in [package-lock.json](package-lock.json).
-- [src/main.tsx](src/main.tsx) loads Bootstrap, AdminLTE, SurveyJS core CSS, then the **official** `survey-core/themes/adapters/bootstrap-default.css`, and calls `setupThemeAdapter('bootstrap')` once. The general docs show `bootstrap.css`, but the installed 3.2.3 package exports `bootstrap-default.css`; no adapter is copied or reimplemented.
-- [src/workflows.ts](src/workflows.ts) owns the form schemas and SurveyJS expressions. Invoice lines use a dynamic panel to remain usable on mobile. Email uses a text input with the SurveyJS email validator, email autocomplete, and `inputmode=email`: this installed version excludes HTML email inputs from typing updates, which can move the submit button as errors disappear on blur.
-- [src/storage.ts](src/storage.ts) owns explicit browser draft operations, field allowlisting, malformed-draft handling, and storage-error reporting. Enrollment bypasses storage entirely.
-- [src/App.tsx](src/App.tsx) owns navigation, actions, confirmation dialogs, summaries, and the invoice document. React controls the AdminLTE sidebar; jQuery and AdminLTE's global DOM-mutating JavaScript are not needed.
-- [src/App.css](src/App.css) contains scoped layout/theme adjustments and print rules. Fonts and icons are packaged locally; no CDN or remote image is needed at runtime.
-
-## Verify
-
-```powershell
-npm test
+```bash
+npm install            # root tooling (Playwright for the site test)
+npm run install:all    # npm ci in every template
 npm run lint
-npm run build
-npx playwright install chromium
-npm run test:e2e
+npm test               # unit tests in every template
+npm run test:e2e       # browser tests in every template (run `npx playwright install chromium` once)
+npm run check:standalone   # copy each template outside the repo, then install, build and test it there
 ```
 
-The browser suite builds the application and starts a production preview on port 4173. It tests desktop (1440px) and mobile (390px) workflows, validation, password non-persistence, invoice calculations/rows, save/reload/reset/cancel, storage failure, source links, navigation guards, viewport overflow, and print CSS. Screenshots are written to `artifacts/`; failed-test traces go to `test-results/`. Actual printer output and the browser's native Save as PDF dialog are manual checks; automated tests verify the print invocation and print-media DOM.
+## Demo site
 
-The production build currently reports a bundle-size advisory because the full SurveyJS renderer is bundled. It is not a build failure. This demo prioritizes straightforward integration over production code splitting.
+```bash
+npm run build:site     # builds all templates into site/
+npm run serve:site     # serves site/ at http://127.0.0.1:4180/demo/
+npm run test:site      # builds the site and tests it under /demo/
+```
 
-## Licensing
+`site/` is a static folder: a landing page plus one subfolder per template. All paths are relative, so it can be published to any web server or subfolder (for example GitHub Pages). The sidebar in each template links to its siblings with relative paths (`../member-enrollment/`); edit `src/layout/links.ts` in a template if you use it on its own.
 
-AdminLTE, Bootstrap, React, and SurveyJS Form Library are MIT-licensed. Lucide uses ISC; DM Sans and Manrope use SIL Open Font License. Their package notices remain in the installed dependencies and generated CSS notices are retained. No AdminLTE demo-specific HTML, brand imagery, or payment logos were copied. Survey Creator, Dashboard, and SurveyJS PDF Generator are not included. Review dependency notices before redistributing a packaged build.
+## Versions
+
+AdminLTE 4.10.0, Bootstrap 5.3.8, Bootstrap Icons 1.13.1, SurveyJS `survey-core` / `survey-react-ui` 3.2.3, React 19, Vite 8, TypeScript 7. Each template pins its own versions in its `package.json` and `package-lock.json`.
+
+SurveyJS renders with Bootstrap markup through the official theme adapter (`survey-core/themes/adapters/bootstrap-default.css` + `setupThemeAdapter('bootstrap')`). AdminLTE's and Bootstrap's JavaScript are not loaded; React toggles the AdminLTE sidebar classes.
+
+## License
+
+MIT — see [LICENSE](LICENSE). Third-party credits:
+
+- [AdminLTE](https://github.com/ColorlibHQ/AdminLTE) — MIT
+- [Bootstrap](https://getbootstrap.com) and [Bootstrap Icons](https://icons.getbootstrap.com) — MIT
+- [SurveyJS Form Library](https://github.com/surveyjs/survey-library) — MIT
+- [React](https://react.dev) — MIT
+- [Source Sans 3](https://github.com/adobe-fonts/source-sans) — SIL Open Font License 1.1
+
+These templates are independently maintained and are not an official AdminLTE release.
