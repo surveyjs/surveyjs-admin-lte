@@ -124,3 +124,20 @@ test('sidebar toggles on mobile and desktop', async ({ page }, testInfo) => {
     await expect(body).not.toHaveClass(/sidebar-collapse/)
   }
 })
+
+test('a saved draft with corrupt line items shows an alert and the example invoice', async ({
+  page,
+}) => {
+  const errors: string[] = []
+  page.on('pageerror', (error) => errors.push(error.message))
+  await page.addInitScript(() => {
+    localStorage.setItem(
+      'adminlte-surveyjs:invoice-studio:v1',
+      JSON.stringify({ data: { items: [null] }, savedAt: '2026-10-29T10:00:00.000Z' }),
+    )
+  })
+  await page.goto('/')
+  await expect(page.getByRole('alert')).toContainText('could not be opened')
+  await expect(page.locator('.invoice-total')).toHaveText('$5,087.75')
+  expect(errors).toEqual([])
+})
