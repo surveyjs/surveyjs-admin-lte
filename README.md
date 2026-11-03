@@ -1,6 +1,6 @@
 # AdminLTE + SurveyJS templates
 
-Three [AdminLTE 4](https://adminlte.io) templates whose forms are built with the free, MIT-licensed [SurveyJS Form Library](https://surveyjs.io/form-library). Each one rebuilds an AdminLTE example page: stock AdminLTE layout and styling, with SurveyJS handling fields, validation, repeatable items, and calculations declared in JSON.
+Three [AdminLTE 4](https://adminlte.io) templates whose forms are built with the free, MIT-licensed [SurveyJS Form Library](https://surveyjs.io/form-library/documentation/overview). Each one rebuilds an AdminLTE example page: stock AdminLTE layout and styling, with SurveyJS handling fields, validation, repeatable items, and calculations declared in JSON.
 
 Each template is a standalone React + Vite project. Copy any folder out of `templates/` and it installs, builds, and runs on its own, like a downloaded gallery template.
 
