@@ -1,6 +1,9 @@
 # AdminLTE + SurveyJS templates
 
-Three [AdminLTE 4](https://adminlte.io) templates whose forms are built with the free, MIT-licensed [SurveyJS Form Library](https://surveyjs.io/form-library/documentation/overview). Each one rebuilds an AdminLTE example page: stock AdminLTE layout and styling, with SurveyJS handling fields, validation, repeatable items, and calculations declared in JSON.
+[AdminLTE 4](https://adminlte.io) templates whose forms are built with the free, MIT-licensed [SurveyJS Form Library](https://surveyjs.io/form-library/documentation/overview): stock AdminLTE layout and styling, with SurveyJS handling fields, validation, repeatable items, conditional logic, and calculations declared in JSON.
+
+- Three templates rebuild AdminLTE example pages.
+- Two multi-page forms are each built twice, once per navigation style, so the styles can be compared side by side.
 
 Each template is a standalone React + Vite project. Copy any folder out of `templates/` and it installs, builds, and runs on its own, like a downloaded gallery template.
 
@@ -12,12 +15,26 @@ Each template is a standalone React + Vite project. Copy any folder out of `temp
 
 The original AdminLTE pages are references for the workflows. Their demo content, images, and payment logos are not copied. The original Project Add and Invoice pages have Save, Submit Payment, and Generate PDF buttons that do nothing; these templates do not pretend to process payments or generate PDFs directly (Invoice Studio prints through the browser, which can save as PDF).
 
+### Multi-page forms: two navigation styles
+
+| Form | SurveyJS navigation | AdminLTE steps |
+| --- | --- | --- |
+| New Customer: five-page CRM onboarding with a contacts table whose rows expand, revenue estimate, compliance questions, and a review page | [new-customer-surveyjs-nav](templates/new-customer-surveyjs-nav/) | [new-customer-adminlte-steps](templates/new-customer-adminlte-steps/) |
+| Incident Report: the second page depends on the incident type (IT, security, workplace); witnesses, follow-up actions, evidence uploads | [incident-report-surveyjs-nav](templates/incident-report-surveyjs-nav/) | [incident-report-adminlte-steps](templates/incident-report-adminlte-steps/) |
+
+Both versions of a form load the same JSON file and share the same layout, summary card, and result view. Only the navigation differs:
+
+- **SurveyJS navigation:** the progress bar and Back / Continue / Submit buttons come from the form JSON and are rendered by SurveyJS inside the card.
+- **AdminLTE steps:** SurveyJS's buttons and progress bar are turned off. A numbered AdminLTE step list and card-footer buttons call the SurveyJS page API (`nextPage`, `prevPage`, `completeLastPage`).
+
+Each template's README lists the fixes applied to the source JSON.
+
 ## Run one template
 
 Requires Node.js 22.12+.
 
 ```bash
-cd templates/project-brief    # or member-enrollment, invoice-studio
+cd templates/project-brief    # or any other folder in templates/
 npm install
 npm run dev
 ```

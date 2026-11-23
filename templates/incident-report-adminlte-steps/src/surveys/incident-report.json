@@ -1,0 +1,1081 @@
+{
+  "title": "Incident Report",
+  "description": "Report IT, information security, and workplace incidents. Questions adapt to the incident type.",
+  "completedHtml": "<h3>Report completed</h3><p>Thank you. This demo does not save submissions automatically. A production application must send responses to its secure backend.</p>",
+  "pages": [
+    {
+      "name": "initial",
+      "title": "Incident overview",
+      "elements": [
+        {
+          "type": "html",
+          "name": "intro",
+          "html": "<p>Use this form to record an IT, information security, or workplace incident. If anyone is in immediate danger, contact emergency services and follow your organization’s urgent response procedure before completing this report.</p>"
+        },
+        {
+          "type": "radiogroup",
+          "name": "incident_type",
+          "title": "What type of incident are you reporting?",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "it",
+              "text": "IT incident"
+            },
+            {
+              "value": "security",
+              "text": "Information security incident"
+            },
+            {
+              "value": "workplace",
+              "text": "Workplace incident"
+            }
+          ],
+          "colCount": 3
+        },
+        {
+          "type": "text",
+          "name": "incident_title",
+          "title": "Short incident title",
+          "maxLength": 120,
+          "placeholder": "E.g., Laptop unavailable after software update",
+          "isRequired": true
+        },
+        {
+          "type": "comment",
+          "name": "incident_description",
+          "title": "Describe what happened",
+          "rows": 5,
+          "placeholder": "Describe the sequence of events and what you observed.",
+          "isRequired": true
+        },
+        {
+          "type": "text",
+          "name": "occurred_at",
+          "title": "When did the incident occur?",
+          "isRequired": true,
+          "inputType": "datetime-local"
+        },
+        {
+          "type": "radiogroup",
+          "name": "ongoing",
+          "startWithNewLine": false,
+          "title": "Is the incident still ongoing?",
+          "choices": [
+            {
+              "value": "yes",
+              "text": "Yes"
+            },
+            {
+              "value": "no",
+              "text": "No"
+            },
+            {
+              "value": "unknown",
+              "text": "Not sure"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "name": "location",
+          "title": "Location, office, system, or service",
+          "isRequired": true,
+          "placeholder": "E.g., London office, Floor 2 / Customer portal"
+        },
+        {
+          "type": "dropdown",
+          "name": "reported_by",
+          "startWithNewLine": false,
+          "title": "Who is submitting this report?",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "employee",
+              "text": "Employee"
+            },
+            {
+              "value": "manager",
+              "text": "Manager"
+            },
+            {
+              "value": "contractor",
+              "text": "Contractor"
+            },
+            {
+              "value": "other",
+              "text": "Other"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "name": "reporter_name",
+          "title": "Your full name",
+          "isRequired": true
+        },
+        {
+          "type": "text",
+          "name": "reporter_email",
+          "startWithNewLine": false,
+          "title": "Work email address",
+          "isRequired": true,
+          "validators": [
+            {
+              "type": "email",
+              "text": "Enter a valid email address."
+            }
+          ],
+          "inputType": "email"
+        },
+        {
+          "type": "text",
+          "name": "reporter_department",
+          "title": "Department or team",
+          "isRequired": true
+        },
+        {
+          "type": "radiogroup",
+          "name": "anonymous_request",
+          "title": "Should your identity be restricted to authorized incident handlers?",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "yes",
+              "text": "Yes, restrict access where policy permits"
+            },
+            {
+              "value": "no",
+              "text": "No special restriction requested"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "it_details",
+      "visibleIf": "{incident_type} = 'it'",
+      "title": "IT incident details",
+      "elements": [
+        {
+          "type": "dropdown",
+          "name": "it_category",
+          "title": "What best describes the IT issue?",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "outage",
+              "text": "Service outage"
+            },
+            {
+              "value": "hardware",
+              "text": "Hardware failure"
+            },
+            {
+              "value": "software",
+              "text": "Software error"
+            },
+            {
+              "value": "network",
+              "text": "Network or connectivity issue"
+            },
+            {
+              "value": "access",
+              "text": "Access or authentication issue"
+            },
+            {
+              "value": "data",
+              "text": "Data loss or corruption"
+            },
+            {
+              "value": "other",
+              "text": "Other"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "name": "it_service",
+          "title": "Affected application, device, or service",
+          "isRequired": true
+        },
+        {
+          "type": "checkbox",
+          "name": "it_symptoms",
+          "title": "What symptoms have you observed?",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "unavailable",
+              "text": "Service unavailable"
+            },
+            {
+              "value": "slow",
+              "text": "Performance degradation"
+            },
+            {
+              "value": "error",
+              "text": "Error messages"
+            },
+            {
+              "value": "login",
+              "text": "Unable to log in"
+            },
+            {
+              "value": "data",
+              "text": "Missing or incorrect data"
+            },
+            {
+              "value": "other",
+              "text": "Other"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "name": "it_error_code",
+          "visibleIf": "{it_symptoms} contains 'error'",
+          "title": "Error code or message"
+        },
+        {
+          "type": "radiogroup",
+          "name": "it_users_affected",
+          "title": "How many users are affected?",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "one",
+              "text": "One user"
+            },
+            {
+              "value": "team",
+              "text": "One team"
+            },
+            {
+              "value": "multiple",
+              "text": "Multiple teams"
+            },
+            {
+              "value": "all",
+              "text": "Organization-wide"
+            },
+            {
+              "value": "unknown",
+              "text": "Unknown"
+            }
+          ]
+        },
+        {
+          "type": "radiogroup",
+          "name": "it_workaround",
+          "title": "Is there a usable workaround?",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "yes",
+              "text": "Yes"
+            },
+            {
+              "value": "no",
+              "text": "No"
+            },
+            {
+              "value": "unknown",
+              "text": "Not sure"
+            }
+          ]
+        },
+        {
+          "type": "comment",
+          "name": "it_workaround_details",
+          "visibleIf": "{it_workaround} = 'yes'",
+          "title": "Describe the workaround",
+          "isRequired": true
+        },
+        {
+          "type": "checkbox",
+          "name": "it_troubleshooting",
+          "title": "What actions have already been attempted?",
+          "choices": [
+            {
+              "value": "restart",
+              "text": "Restarted the device or service"
+            },
+            {
+              "value": "relogin",
+              "text": "Signed out and back in"
+            },
+            {
+              "value": "network",
+              "text": "Checked network connectivity"
+            },
+            {
+              "value": "logs",
+              "text": "Reviewed application logs"
+            },
+            {
+              "value": "support",
+              "text": "Contacted the IT support team"
+            },
+            {
+              "value": "other",
+              "text": "Other"
+            }
+          ]
+        },
+        {
+          "type": "comment",
+          "name": "it_steps",
+          "title": "Steps to reproduce the issue (if known)"
+        }
+      ]
+    },
+    {
+      "name": "security_details",
+      "visibleIf": "{incident_type} = 'security'",
+      "title": "Information security incident details",
+      "elements": [
+        {
+          "type": "html",
+          "name": "security_notice",
+          "html": "<p><strong>Important:</strong> Do not paste passwords, secret tokens, or sensitive personal records into this form. Follow your organization’s security escalation procedure for urgent incidents.</p>"
+        },
+        {
+          "type": "dropdown",
+          "name": "security_category",
+          "title": "What kind of security incident occurred?",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "phishing",
+              "text": "Phishing or social engineering"
+            },
+            {
+              "value": "unauthorized_access",
+              "text": "Suspected unauthorized access"
+            },
+            {
+              "value": "malware",
+              "text": "Malware or ransomware"
+            },
+            {
+              "value": "data_exposure",
+              "text": "Potential data exposure"
+            },
+            {
+              "value": "lost_device",
+              "text": "Lost or stolen device"
+            },
+            {
+              "value": "policy",
+              "text": "Security policy violation"
+            },
+            {
+              "value": "other",
+              "text": "Other"
+            }
+          ]
+        },
+        {
+          "type": "radiogroup",
+          "name": "security_data_exposed",
+          "title": "Could sensitive data have been accessed or disclosed?",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "yes",
+              "text": "Yes"
+            },
+            {
+              "value": "no",
+              "text": "No"
+            },
+            {
+              "value": "unknown",
+              "text": "Not sure"
+            }
+          ]
+        },
+        {
+          "type": "checkbox",
+          "name": "security_data_categories",
+          "visibleIf": "{security_data_exposed} = 'yes'",
+          "title": "What categories of information may be affected?",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "personal",
+              "text": "Personal information"
+            },
+            {
+              "value": "financial",
+              "text": "Financial information"
+            },
+            {
+              "value": "health",
+              "text": "Health information"
+            },
+            {
+              "value": "credentials",
+              "text": "Account credentials"
+            },
+            {
+              "value": "customer",
+              "text": "Customer or business records"
+            },
+            {
+              "value": "unknown",
+              "text": "Other / not yet determined"
+            }
+          ]
+        },
+        {
+          "type": "radiogroup",
+          "name": "security_accounts_affected",
+          "title": "Are user accounts potentially compromised?",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "yes",
+              "text": "Yes"
+            },
+            {
+              "value": "no",
+              "text": "No"
+            },
+            {
+              "value": "unknown",
+              "text": "Not sure"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "name": "security_accounts_count",
+          "visibleIf": "{security_accounts_affected} = 'yes'",
+          "title": "Estimated number of affected accounts",
+          "inputType": "number",
+          "min": 0
+        },
+        {
+          "type": "radiogroup",
+          "name": "security_contained",
+          "title": "Has the suspected threat been contained?",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "yes",
+              "text": "Yes"
+            },
+            {
+              "value": "no",
+              "text": "No"
+            },
+            {
+              "value": "unknown",
+              "text": "Not sure"
+            }
+          ]
+        },
+        {
+          "type": "comment",
+          "name": "security_containment",
+          "visibleIf": "{security_contained} = 'yes'",
+          "title": "Describe containment actions taken",
+          "isRequired": true
+        },
+        {
+          "type": "radiogroup",
+          "name": "security_soc_notified",
+          "title": "Has the security or incident response team been notified?",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "yes",
+              "text": "Yes"
+            },
+            {
+              "value": "no",
+              "text": "No"
+            },
+            {
+              "value": "unknown",
+              "text": "Not sure"
+            }
+          ]
+        },
+        {
+          "type": "comment",
+          "name": "security_notification",
+          "visibleIf": "{security_soc_notified} = 'yes'",
+          "title": "Who was contacted and when?",
+          "isRequired": true
+        },
+        {
+          "type": "comment",
+          "name": "security_indicators",
+          "title": "Relevant indicators or observations (do not include credentials)"
+        }
+      ]
+    },
+    {
+      "name": "workplace_details",
+      "visibleIf": "{incident_type} = 'workplace'",
+      "title": "Workplace incident details",
+      "elements": [
+        {
+          "type": "dropdown",
+          "name": "workplace_category",
+          "title": "What kind of workplace incident occurred?",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "injury",
+              "text": "Injury or illness"
+            },
+            {
+              "value": "near_miss",
+              "text": "Near miss"
+            },
+            {
+              "value": "hazard",
+              "text": "Unsafe condition or hazard"
+            },
+            {
+              "value": "equipment",
+              "text": "Equipment-related incident"
+            },
+            {
+              "value": "violence",
+              "text": "Threat, harassment, or violence"
+            },
+            {
+              "value": "property",
+              "text": "Property damage"
+            },
+            {
+              "value": "other",
+              "text": "Other"
+            }
+          ]
+        },
+        {
+          "type": "radiogroup",
+          "name": "workplace_injury",
+          "title": "Was anyone injured or in need of medical care?",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "yes",
+              "text": "Yes"
+            },
+            {
+              "value": "no",
+              "text": "No"
+            },
+            {
+              "value": "unknown",
+              "text": "Not sure"
+            }
+          ]
+        },
+        {
+          "type": "paneldynamic",
+          "name": "injured_people",
+          "visibleIf": "{workplace_injury} = 'yes'",
+          "title": "People injured or receiving care",
+          "isRequired": true,
+          "templateElements": [
+            {
+              "type": "text",
+              "name": "person_name",
+              "title": "Name or identifying reference",
+              "isRequired": true
+            },
+            {
+              "type": "dropdown",
+              "name": "person_role",
+              "title": "Relationship to the organization",
+              "isRequired": true,
+              "choices": [
+                {
+                  "value": "employee",
+                  "text": "Employee"
+                },
+                {
+                  "value": "visitor",
+                  "text": "Visitor"
+                },
+                {
+                  "value": "contractor",
+                  "text": "Contractor"
+                },
+                {
+                  "value": "other",
+                  "text": "Other"
+                }
+              ]
+            },
+            {
+              "type": "comment",
+              "name": "injury_summary",
+              "title": "Nature of injury or care required",
+              "isRequired": true,
+              "rows": 2
+            },
+            {
+              "type": "radiogroup",
+              "name": "care_received",
+              "title": "Was professional medical care sought?",
+              "choices": [
+                {
+                  "value": "yes",
+                  "text": "Yes"
+                },
+                {
+                  "value": "no",
+                  "text": "No"
+                },
+                {
+                  "value": "unknown",
+                  "text": "Not sure"
+                }
+              ]
+            }
+          ],
+          "templateTitle": "Affected person #{panelIndex}",
+          "panelCount": 1,
+          "minPanelCount": 1,
+          "maxPanelCount": 10,
+          "addPanelText": "Add another person"
+        },
+        {
+          "type": "radiogroup",
+          "name": "workplace_emergency",
+          "title": "Were emergency services contacted?",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "yes",
+              "text": "Yes"
+            },
+            {
+              "value": "no",
+              "text": "No"
+            },
+            {
+              "value": "unknown",
+              "text": "Not sure"
+            }
+          ]
+        },
+        {
+          "type": "comment",
+          "name": "workplace_emergency_details",
+          "visibleIf": "{workplace_emergency} = 'yes'",
+          "title": "Provide emergency response details",
+          "isRequired": true
+        },
+        {
+          "type": "radiogroup",
+          "name": "workplace_area_safe",
+          "title": "Is the area now safe to access?",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "yes",
+              "text": "Yes"
+            },
+            {
+              "value": "no",
+              "text": "No"
+            },
+            {
+              "value": "unknown",
+              "text": "Not sure"
+            }
+          ]
+        },
+        {
+          "type": "comment",
+          "name": "workplace_hazards",
+          "visibleIf": "{workplace_area_safe} anyof ['no', 'unknown']",
+          "title": "Describe any remaining hazards",
+          "isRequired": true
+        },
+        {
+          "type": "radiogroup",
+          "name": "workplace_equipment",
+          "title": "Did equipment or machinery contribute?",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "yes",
+              "text": "Yes"
+            },
+            {
+              "value": "no",
+              "text": "No"
+            },
+            {
+              "value": "unknown",
+              "text": "Not sure"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "name": "workplace_equipment_details",
+          "visibleIf": "{workplace_equipment} = 'yes'",
+          "title": "Equipment or asset identifier",
+          "isRequired": true
+        }
+      ]
+    },
+    {
+      "name": "impact",
+      "title": "Impact and immediate response",
+      "elements": [
+        {
+          "type": "rating",
+          "name": "impact_severity",
+          "title": "What is the estimated severity?",
+          "isRequired": true,
+          "minRateDescription": "1 — Minimal impact",
+          "maxRateDescription": "5 — Critical impact"
+        },
+        {
+          "type": "checkbox",
+          "name": "impact_areas",
+          "title": "Which areas are affected?",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "people",
+              "text": "People or safety"
+            },
+            {
+              "value": "operations",
+              "text": "Business operations"
+            },
+            {
+              "value": "customers",
+              "text": "Customers"
+            },
+            {
+              "value": "data",
+              "text": "Information or data"
+            },
+            {
+              "value": "financial",
+              "text": "Financial impact"
+            },
+            {
+              "value": "reputation",
+              "text": "Reputation"
+            },
+            {
+              "value": "property",
+              "text": "Physical assets"
+            }
+          ]
+        },
+        {
+          "type": "radiogroup",
+          "name": "business_disruption",
+          "title": "Is business activity currently disrupted?",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "yes",
+              "text": "Yes"
+            },
+            {
+              "value": "no",
+              "text": "No"
+            },
+            {
+              "value": "unknown",
+              "text": "Not sure"
+            }
+          ]
+        },
+        {
+          "type": "comment",
+          "name": "business_disruption_details",
+          "visibleIf": "{business_disruption} = 'yes'",
+          "title": "Describe the disruption and affected services",
+          "isRequired": true
+        },
+        {
+          "type": "comment",
+          "name": "immediate_actions",
+          "title": "Immediate actions taken",
+          "isRequired": true,
+          "placeholder": "Describe containment, mitigation, notifications, and assistance."
+        },
+        {
+          "type": "radiogroup",
+          "name": "manager_notified",
+          "title": "Was a manager or relevant response team notified?",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "yes",
+              "text": "Yes"
+            },
+            {
+              "value": "no",
+              "text": "No"
+            },
+            {
+              "value": "unknown",
+              "text": "Not sure"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "name": "notified_contact",
+          "visibleIf": "{manager_notified} = 'yes'",
+          "title": "Who was notified?",
+          "isRequired": true
+        },
+        {
+          "type": "radiogroup",
+          "name": "followup_needed",
+          "title": "Is follow-up action required?",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "yes",
+              "text": "Yes"
+            },
+            {
+              "value": "no",
+              "text": "No"
+            },
+            {
+              "value": "unknown",
+              "text": "Not sure"
+            }
+          ]
+        },
+        {
+          "type": "paneldynamic",
+          "name": "followup_actions",
+          "visibleIf": "{followup_needed} = 'yes'",
+          "title": "Follow-up actions",
+          "templateElements": [
+            {
+              "type": "comment",
+              "name": "action",
+              "title": "Required action",
+              "isRequired": true,
+              "rows": 2
+            },
+            {
+              "type": "text",
+              "name": "owner",
+              "title": "Suggested owner or team"
+            },
+            {
+              "type": "text",
+              "name": "due_date",
+              "title": "Suggested due date",
+              "inputType": "date"
+            }
+          ],
+          "templateTitle": "Action #{panelIndex}",
+          "panelCount": 1,
+          "minPanelCount": 1,
+          "maxPanelCount": 12,
+          "addPanelText": "Add follow-up action"
+        }
+      ]
+    },
+    {
+      "name": "people_evidence",
+      "title": "Witnesses and supporting evidence",
+      "elements": [
+        {
+          "type": "radiogroup",
+          "name": "witnesses_present",
+          "title": "Were there any witnesses?",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "yes",
+              "text": "Yes"
+            },
+            {
+              "value": "no",
+              "text": "No"
+            },
+            {
+              "value": "unknown",
+              "text": "Not sure"
+            }
+          ]
+        },
+        {
+          "type": "paneldynamic",
+          "name": "witnesses",
+          "visibleIf": "{witnesses_present} = 'yes'",
+          "title": "Witnesses",
+          "templateElements": [
+            {
+              "type": "text",
+              "name": "witness_name",
+              "title": "Full name",
+              "isRequired": true
+            },
+            {
+              "type": "text",
+              "name": "witness_contact",
+              "title": "Contact email",
+              "validators": [
+                {
+                  "type": "email",
+                  "text": "Enter a valid email address."
+                }
+              ],
+              "inputType": "email"
+            },
+            {
+              "type": "dropdown",
+              "name": "witness_role",
+              "title": "Role",
+              "choices": [
+                {
+                  "value": "employee",
+                  "text": "Employee"
+                },
+                {
+                  "value": "contractor",
+                  "text": "Contractor"
+                },
+                {
+                  "value": "visitor",
+                  "text": "Visitor"
+                },
+                {
+                  "value": "other",
+                  "text": "Other"
+                }
+              ]
+            },
+            {
+              "type": "comment",
+              "name": "witness_observations",
+              "title": "What did this person observe?",
+              "rows": 3
+            }
+          ],
+          "templateTitle": "Witness #{panelIndex}",
+          "panelCount": 1,
+          "minPanelCount": 1,
+          "maxPanelCount": 15,
+          "addPanelText": "Add witness",
+          "removePanelText": "Remove witness"
+        },
+        {
+          "type": "radiogroup",
+          "name": "evidence_available",
+          "title": "Do you have supporting evidence?",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "yes",
+              "text": "Yes"
+            },
+            {
+              "value": "no",
+              "text": "No"
+            },
+            {
+              "value": "unknown",
+              "text": "Not sure"
+            }
+          ]
+        },
+        {
+          "type": "file",
+          "name": "evidence_files",
+          "visibleIf": "{evidence_available} = 'yes'",
+          "title": "Upload supporting files",
+          "description": "Up to 10 MB per file. Avoid uploading passwords, secret tokens, or unnecessary sensitive information. In this demo, files stay in your browser and are not uploaded.",
+          "allowMultiple": true,
+          "acceptedTypes": ".pdf,.png,.jpg,.jpeg,.txt,.log",
+          "storeDataAsText": false,
+          "maxSize": 10485760
+        },
+        {
+          "type": "comment",
+          "name": "evidence_notes",
+          "visibleIf": "{evidence_available} = 'yes'",
+          "title": "Describe the evidence and where originals are stored",
+          "rows": 3
+        },
+        {
+          "type": "radiogroup",
+          "name": "additional_contact",
+          "title": "May the response team contact you for clarification?",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "yes",
+              "text": "Yes"
+            },
+            {
+              "value": "no",
+              "text": "No"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "review",
+      "title": "Review and submit",
+      "elements": [
+        {
+          "type": "html",
+          "name": "review_intro",
+          "html": "<p>Review your answers before submitting. The report should be factual and should not contain passwords or unnecessary personal information.</p>"
+        },
+        {
+          "type": "checkbox",
+          "name": "confirmations",
+          "title": "Confirmation",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "accurate",
+              "text": "I have provided information that is accurate to the best of my knowledge."
+            },
+            {
+              "value": "policy",
+              "text": "I understand this report does not replace urgent escalation or emergency procedures."
+            }
+          ],
+          "validators": [
+            {
+              "type": "expression",
+              "text": "Confirm both statements to submit the report.",
+              "expression": "{confirmations} allof ['accurate', 'policy']"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "showProgressBar": true,
+  "progressBarLocation": "top",
+  "progressBarShowNavigationText": true,
+  "progressBarShowPageNumbers": true,
+  "pagePrevText": "Back",
+  "pageNextText": "Continue",
+  "completeText": "Submit incident report",
+  "widthMode": "responsive"
+}

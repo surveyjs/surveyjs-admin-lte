@@ -22,11 +22,13 @@ export default function AppLayout({
   active,
   referenceUrl,
   referenceTitle,
+  referenceLabel = 'Original AdminLTE page',
   children,
 }: {
   active: TemplateId
   referenceUrl: string
   referenceTitle: string
+  referenceLabel?: string
   children: ReactNode
 }) {
   useEffect(() => {
@@ -50,6 +52,7 @@ export default function AppLayout({
         active={active}
         referenceUrl={referenceUrl}
         referenceTitle={referenceTitle}
+        referenceLabel={referenceLabel}
       />
       <main className="app-main" id="main" tabIndex={-1}>
         {children}
