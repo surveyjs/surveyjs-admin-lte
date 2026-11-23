@@ -1,0 +1,171 @@
+/* Small adjustments so the SurveyJS form sits inside an AdminLTE card. */
+
+.card-body .sd-root-modern {
+  --sjs-font-family: var(--bs-body-font-family);
+  --sjs-primary-backcolor: var(--bs-primary);
+  --sjs-base-unit: 6px;
+  --sjs-shadow-small: none;
+  --sjs-shadow-inner: none;
+  background: transparent;
+}
+.card-body .sd-body {
+  padding: 0;
+  max-width: none;
+}
+.card-body .sd-body__page {
+  min-width: 0;
+}
+.card-body .sd-page {
+  padding: 0;
+}
+.card-body .sd-element--with-frame {
+  box-shadow: none;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.card-body .sd-panel__header {
+  padding: 0 0 0.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--bs-border-color);
+}
+
+/* Card footer with save state on the left and actions on the right.
+   AdminLTE adds a clearfix ::after to card footers; drop it so it is not a flex item. */
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.form-actions-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Native <dialog> rendered as a Bootstrap modal. */
+.template-dialog {
+  width: min(32rem, calc(100vw - 2rem));
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.template-dialog::backdrop {
+  background: rgb(0 0 0 / 50%);
+}
+.form-actions::after {
+  content: none;
+}
+
+/* Keep the two-word brand inside the 250px sidebar. */
+.sidebar-brand .brand-text {
+  font-size: 1.125rem;
+}
+
+
+/* Multi-page form pages. */
+.form-intro {
+  max-width: 60rem;
+}
+/* One column beside the form; several columns when the summary sits below it. */
+.summary-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+  gap: 0.75rem 1rem;
+}
+.submitted-json {
+  max-height: 24rem;
+  overflow: auto;
+  padding: 0.75rem;
+  font-size: 0.75rem;
+  background: var(--bs-tertiary-bg);
+  border-radius: var(--bs-border-radius);
+}
+
+/* AdminLTE-styled step list (after the bs-stepper in AdminLTE 3 Advanced Forms). */
+.form-steps-bar {
+  flex: none;
+}
+.form-steps {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.form-step {
+  display: flex;
+  flex: 1 1 0;
+  align-items: center;
+  min-width: 0;
+}
+.form-step:last-child {
+  flex: 0 1 auto;
+}
+.form-step:not(:last-child)::after {
+  content: '';
+  flex: 1 0 0.75rem;
+  height: 1px;
+  margin: 0 0.25rem;
+  background: var(--bs-border-color);
+}
+.form-step-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  padding: 0.375rem;
+  border: 0;
+  border-radius: var(--bs-border-radius);
+  background: transparent;
+  color: var(--bs-secondary-color);
+  font-weight: 600;
+  text-align: start;
+}
+.form-step-trigger:hover {
+  background: var(--bs-tertiary-bg);
+}
+.form-step-trigger:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgb(var(--bs-primary-rgb) / 25%);
+}
+.form-step-circle {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--bs-secondary-bg);
+  color: var(--bs-body-color);
+}
+.is-active .form-step-trigger {
+  color: var(--bs-body-color);
+}
+.is-active .form-step-circle {
+  background: var(--bs-primary);
+  color: #fff;
+}
+.is-done .form-step-circle {
+  background: var(--bs-success);
+  color: #fff;
+}
+.form-step-label {
+  font-size: 0.875rem;
+  line-height: 1.2;
+}
+/* Below the xl breakpoint steps show numbers only; the page title names the
+   current step. The labels stay available to screen readers. */
+@media (max-width: 1199.98px) {
+  .form-step-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}

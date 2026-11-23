@@ -1,0 +1,756 @@
+{
+  "title": "New Customer | CRM Onboarding",
+  "description": "Create a customer record, add key contacts, and configure billing, commercial terms, and onboarding requirements.",
+  "completedHtml": "<h3>Customer profile submitted</h3><p>The customer record is ready to be sent to your CRM. This demo does not save data to a server.</p>",
+  "pages": [
+    {
+      "name": "customer",
+      "title": "Customer profile",
+      "description": "Start with the information your team uses to identify the customer.",
+      "elements": [
+        {
+          "type": "panel",
+          "name": "identity",
+          "title": "Company identity",
+          "elements": [
+            {
+              "type": "text",
+              "name": "companyName",
+              "title": "Legal company name",
+              "isRequired": true,
+              "maxLength": 150,
+              "placeholder": "Example: Northstar Logistics Ltd"
+            },
+            {
+              "type": "text",
+              "name": "tradingName",
+              "startWithNewLine": false,
+              "title": "Trading name (if different)",
+              "maxLength": 150
+            },
+            {
+              "type": "dropdown",
+              "name": "customerType",
+              "title": "Customer type",
+              "isRequired": true,
+              "choices": [
+                {
+                  "value": "business",
+                  "text": "Business (B2B)"
+                },
+                {
+                  "value": "individual",
+                  "text": "Individual (B2C)"
+                },
+                {
+                  "value": "nonprofit",
+                  "text": "Nonprofit / public organization"
+                }
+              ]
+            },
+            {
+              "type": "dropdown",
+              "name": "industry",
+              "visibleIf": "{customerType} <> 'individual'",
+              "title": "Industry",
+              "isRequired": true,
+              "choices": [
+                "Technology",
+                "Professional services",
+                "Healthcare",
+                "Financial services",
+                "Retail & e-commerce",
+                "Manufacturing",
+                "Education",
+                "Government",
+                "Logistics & transportation",
+                "Other"
+              ]
+            },
+            {
+              "type": "text",
+              "name": "industryOther",
+              "visibleIf": "{industry} = 'Other'",
+              "title": "Specify industry",
+              "isRequired": true
+            },
+            {
+              "type": "text",
+              "name": "website",
+              "title": "Website",
+              "validators": [
+                {
+                  "type": "regex",
+                  "text": "Enter a full URL beginning with https:// or http://.",
+                  "regex": "^https?://.+"
+                }
+              ],
+              "inputType": "url",
+              "placeholder": "https://example.com"
+            },
+            {
+              "type": "text",
+              "name": "registrationNumber",
+              "visibleIf": "{customerType} = 'business' or {customerType} = 'nonprofit'",
+              "title": "Company registration number"
+            },
+            {
+              "type": "text",
+              "name": "taxId",
+              "visibleIf": "{customerType} = 'business' or {customerType} = 'nonprofit'",
+              "startWithNewLine": false,
+              "title": "Tax / VAT ID"
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "addressPanel",
+          "title": "Registered address",
+          "elements": [
+            {
+              "type": "text",
+              "name": "addressLine1",
+              "title": "Street address",
+              "isRequired": true
+            },
+            {
+              "type": "text",
+              "name": "addressLine2",
+              "title": "Address line 2"
+            },
+            {
+              "type": "text",
+              "name": "city",
+              "title": "City",
+              "isRequired": true
+            },
+            {
+              "type": "text",
+              "name": "region",
+              "startWithNewLine": false,
+              "title": "State / province / region"
+            },
+            {
+              "type": "text",
+              "name": "postalCode",
+              "title": "Postal / ZIP code",
+              "isRequired": true
+            },
+            {
+              "type": "dropdown",
+              "name": "country",
+              "startWithNewLine": false,
+              "title": "Country",
+              "isRequired": true,
+              "choices": [
+                "United States",
+                "United Kingdom",
+                "Canada",
+                "Germany",
+                "France",
+                "Italy",
+                "Netherlands",
+                "Australia",
+                "India",
+                "Other"
+              ]
+            },
+            {
+              "type": "text",
+              "name": "otherCountry",
+              "visibleIf": "{country} = 'Other'",
+              "title": "Specify country",
+              "isRequired": true
+            }
+          ]
+        },
+        {
+          "type": "tagbox",
+          "name": "customerTags",
+          "title": "Customer tags",
+          "description": "Use tags for filtering and segmentation.",
+          "choices": [
+            "Prospect",
+            "Strategic account",
+            "Partner",
+            "Priority onboarding",
+            "Referral",
+            "International",
+            "Existing relationship"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "contactsPage",
+      "title": "People and contacts",
+      "description": "Keep important contact details visible in the table. Expand a row to enter optional information.",
+      "elements": [
+        {
+          "type": "matrixdynamic",
+          "name": "contacts",
+          "title": "Customer contacts",
+          "description": "Add at least one contact. Main columns hold the details your team needs most often; use the + icon beside each row to reveal secondary details.",
+          "isRequired": true,
+          "columns": [
+            {
+              "name": "fullName",
+              "title": "Full name",
+              "cellType": "text",
+              "isRequired": true,
+              "placeholder": "Jane Smith"
+            },
+            {
+              "name": "jobTitle",
+              "title": "Job title",
+              "cellType": "text",
+              "isRequired": true,
+              "placeholder": "Operations Director"
+            },
+            {
+              "name": "email",
+              "title": "Work email",
+              "cellType": "text",
+              "isRequired": true,
+              "validators": [
+                {
+                  "type": "email",
+                  "text": "Enter a valid email address."
+                }
+              ],
+              "inputType": "email"
+            },
+            {
+              "name": "phone",
+              "title": "Phone",
+              "cellType": "text",
+              "inputType": "tel",
+              "placeholder": "+1 555 0100"
+            },
+            {
+              "name": "contactRole",
+              "title": "Role",
+              "cellType": "dropdown",
+              "isRequired": true,
+              "choices": [
+                {
+                  "value": "primary",
+                  "text": "Primary contact"
+                },
+                {
+                  "value": "decision_maker",
+                  "text": "Decision maker"
+                },
+                {
+                  "value": "billing",
+                  "text": "Billing contact"
+                },
+                {
+                  "value": "technical",
+                  "text": "Technical contact"
+                },
+                {
+                  "value": "other",
+                  "text": "Other"
+                }
+              ]
+            }
+          ],
+          "detailElements": [
+            {
+              "type": "panel",
+              "name": "contactDetails",
+              "title": "Additional contact information",
+              "elements": [
+                {
+                  "type": "text",
+                  "name": "department",
+                  "title": "Department",
+                  "placeholder": "Finance, IT, Procurement…"
+                },
+                {
+                  "type": "dropdown",
+                  "name": "preferredChannel",
+                  "startWithNewLine": false,
+                  "title": "Preferred communication channel",
+                  "choices": [
+                    "Email",
+                    "Phone",
+                    "Video call",
+                    "Messaging"
+                  ]
+                },
+                {
+                  "type": "dropdown",
+                  "name": "preferredLanguage",
+                  "title": "Preferred language",
+                  "choices": [
+                    "English",
+                    "French",
+                    "German",
+                    "Italian",
+                    "Spanish",
+                    "Other"
+                  ]
+                },
+                {
+                  "type": "text",
+                  "name": "timeZone",
+                  "startWithNewLine": false,
+                  "title": "Time zone",
+                  "placeholder": "e.g., Europe/London"
+                },
+                {
+                  "type": "text",
+                  "name": "linkedIn",
+                  "title": "LinkedIn profile",
+                  "validators": [
+                    {
+                      "type": "regex",
+                      "text": "Enter a full profile URL.",
+                      "regex": "^https?://.+"
+                    }
+                  ],
+                  "inputType": "url"
+                },
+                {
+                  "type": "boolean",
+                  "name": "authorizedSigner",
+                  "title": "Authorized to sign contracts?",
+                  "defaultValue": false,
+                  "labelTrue": "Yes",
+                  "labelFalse": "No"
+                },
+                {
+                  "type": "comment",
+                  "name": "contactNotes",
+                  "title": "Internal notes",
+                  "placeholder": "Availability, responsibilities, communication preferences…"
+                }
+              ]
+            }
+          ],
+          "detailPanelMode": "underRow",
+          "rowCount": 1,
+          "minRowCount": 1,
+          "maxRowCount": 12,
+          "confirmDelete": true,
+          "addRowText": "Add another contact",
+          "removeRowText": "Remove contact",
+          "detailPanelShowOnAdding": true
+        },
+        {
+          "type": "boolean",
+          "name": "needsSeparateBillingContact",
+          "title": "Is the billing contact outside this contact list?",
+          "defaultValue": false,
+          "labelTrue": "Yes",
+          "labelFalse": "No"
+        },
+        {
+          "type": "panel",
+          "name": "externalBillingContact",
+          "visibleIf": "{needsSeparateBillingContact} = true",
+          "title": "External billing contact",
+          "elements": [
+            {
+              "type": "text",
+              "name": "billingContactName",
+              "title": "Full name",
+              "isRequired": true
+            },
+            {
+              "type": "text",
+              "name": "billingContactEmail",
+              "title": "Email",
+              "isRequired": true,
+              "validators": [
+                {
+                  "type": "email"
+                }
+              ],
+              "inputType": "email"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "commercialPage",
+      "title": "Commercial profile",
+      "description": "Capture sales context, planned spending, and customer-specific terms.",
+      "elements": [
+        {
+          "type": "panel",
+          "name": "salesInfo",
+          "title": "Sales ownership and opportunity",
+          "elements": [
+            {
+              "type": "dropdown",
+              "name": "customerStatus",
+              "title": "Lifecycle stage",
+              "defaultValue": "New lead",
+              "isRequired": true,
+              "choices": [
+                "New lead",
+                "Qualified prospect",
+                "Negotiation",
+                "Active customer",
+                "Reactivation"
+              ]
+            },
+            {
+              "type": "dropdown",
+              "name": "leadSource",
+              "startWithNewLine": false,
+              "title": "Lead source",
+              "isRequired": true,
+              "choices": [
+                "Website",
+                "Referral",
+                "Partner",
+                "Outbound sales",
+                "Event",
+                "Marketplace",
+                "Other"
+              ]
+            },
+            {
+              "type": "text",
+              "name": "leadSourceDetails",
+              "visibleIf": "{leadSource} = 'Referral' or {leadSource} = 'Partner' or {leadSource} = 'Other'",
+              "title": "Source details"
+            },
+            {
+              "type": "dropdown",
+              "name": "accountManager",
+              "title": "Account owner",
+              "defaultValue": "Unassigned",
+              "isRequired": true,
+              "choices": [
+                "Unassigned",
+                "Alex Morgan",
+                "Jamie Taylor",
+                "Sam Patel",
+                "Jordan Lee"
+              ]
+            },
+            {
+              "type": "dropdown",
+              "name": "priority",
+              "startWithNewLine": false,
+              "title": "Account priority",
+              "defaultValue": "Standard",
+              "choices": [
+                "Standard",
+                "High",
+                "Strategic"
+              ]
+            },
+            {
+              "type": "comment",
+              "name": "businessNeeds",
+              "title": "Primary business needs",
+              "isRequired": true,
+              "placeholder": "What is the customer trying to achieve?"
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "commercialTerms",
+          "title": "Revenue estimate and payment terms",
+          "elements": [
+            {
+              "type": "dropdown",
+              "name": "currency",
+              "title": "Preferred currency",
+              "defaultValue": "USD",
+              "isRequired": true,
+              "choices": [
+                "USD",
+                "EUR",
+                "GBP"
+              ]
+            },
+            {
+              "type": "text",
+              "name": "estimatedMonthlySpend",
+              "startWithNewLine": false,
+              "title": "Estimated monthly revenue (in preferred currency)",
+              "isRequired": true,
+              "validators": [
+                {
+                  "type": "numeric",
+                  "text": "Enter a nonnegative amount.",
+                  "minValue": 0,
+                  "maxValue": 10000000
+                }
+              ],
+              "inputType": "number",
+              "min": 0
+            },
+            {
+              "type": "expression",
+              "name": "annualRevenuePreview",
+              "title": "Estimated annual revenue (in preferred currency)",
+              "description": "Automatically calculated from the monthly estimate.",
+              "expression": "{estimatedMonthlySpend} * 12",
+              "displayStyle": "decimal",
+              "precision": 2
+            },
+            {
+              "type": "dropdown",
+              "name": "paymentTerms",
+              "title": "Payment terms",
+              "defaultValue": "Net 30",
+              "isRequired": true,
+              "choices": [
+                "Due on receipt",
+                "Net 15",
+                "Net 30",
+                "Net 45",
+                "Net 60",
+                "Prepaid"
+              ]
+            },
+            {
+              "type": "boolean",
+              "name": "requiresPurchaseOrder",
+              "title": "Does the customer require a purchase order?",
+              "defaultValue": false,
+              "labelTrue": "Yes",
+              "labelFalse": "No"
+            },
+            {
+              "type": "text",
+              "name": "poNumber",
+              "visibleIf": "{requiresPurchaseOrder} = true",
+              "title": "Purchase order number (if already available)"
+            },
+            {
+              "type": "boolean",
+              "name": "differentBillingAddress",
+              "title": "Use a different billing address?",
+              "defaultValue": false,
+              "labelTrue": "Yes",
+              "labelFalse": "No"
+            },
+            {
+              "type": "panel",
+              "name": "billingAddress",
+              "visibleIf": "{differentBillingAddress} = true",
+              "title": "Billing address",
+              "elements": [
+                {
+                  "type": "text",
+                  "name": "billingStreet",
+                  "title": "Street address",
+                  "isRequired": true
+                },
+                {
+                  "type": "text",
+                  "name": "billingCity",
+                  "title": "City",
+                  "isRequired": true
+                },
+                {
+                  "type": "text",
+                  "name": "billingPostalCode",
+                  "title": "Postal / ZIP code",
+                  "isRequired": true
+                },
+                {
+                  "type": "text",
+                  "name": "billingCountry",
+                  "title": "Country",
+                  "isRequired": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "onboarding",
+      "title": "Onboarding and compliance",
+      "description": "Show relevant requirements based on the customer profile.",
+      "elements": [
+        {
+          "type": "checkbox",
+          "name": "requestedServices",
+          "title": "Requested products or services",
+          "isRequired": true,
+          "choices": [
+            "Software subscription",
+            "Professional services",
+            "Implementation & onboarding",
+            "Training",
+            "Technical support",
+            "Managed services",
+            "Other"
+          ]
+        },
+        {
+          "type": "comment",
+          "name": "otherServiceDescription",
+          "visibleIf": "{requestedServices} contains 'Other'",
+          "title": "Describe the other service",
+          "isRequired": true
+        },
+        {
+          "type": "radiogroup",
+          "name": "handlesSensitiveData",
+          "title": "Will the customer process sensitive or regulated data?",
+          "isRequired": true,
+          "choices": [
+            {
+              "value": "yes",
+              "text": "Yes"
+            },
+            {
+              "value": "no",
+              "text": "No"
+            },
+            {
+              "value": "unknown",
+              "text": "Not yet confirmed"
+            }
+          ]
+        },
+        {
+          "type": "checkbox",
+          "name": "dataTypes",
+          "visibleIf": "{handlesSensitiveData} = 'yes'",
+          "title": "Which types of data?",
+          "isRequired": true,
+          "choices": [
+            "Personal data",
+            "Health data",
+            "Payment-related data",
+            "Employee records",
+            "Confidential business information",
+            "Other"
+          ]
+        },
+        {
+          "type": "comment",
+          "name": "dataNotes",
+          "visibleIf": "{handlesSensitiveData} = 'yes' or {handlesSensitiveData} = 'unknown'",
+          "title": "Additional security or compliance requirements"
+        },
+        {
+          "type": "boolean",
+          "name": "requiresDpa",
+          "visibleIf": "{handlesSensitiveData} = 'yes'",
+          "title": "Does onboarding require a data processing agreement (DPA)?",
+          "defaultValue": false,
+          "labelTrue": "Yes",
+          "labelFalse": "No"
+        },
+        {
+          "type": "boolean",
+          "name": "requiresSecurityReview",
+          "title": "Does onboarding require a security review?",
+          "defaultValue": false,
+          "labelTrue": "Yes",
+          "labelFalse": "No"
+        },
+        {
+          "type": "comment",
+          "name": "securityReviewRequirements",
+          "visibleIf": "{requiresSecurityReview} = true",
+          "title": "Security review requirements",
+          "isRequired": true
+        },
+        {
+          "type": "boolean",
+          "name": "hasTargetGoLiveDate",
+          "title": "Is there a target go-live date?",
+          "defaultValue": false,
+          "labelTrue": "Yes",
+          "labelFalse": "No"
+        },
+        {
+          "type": "text",
+          "name": "targetGoLive",
+          "visibleIf": "{hasTargetGoLiveDate} = true",
+          "title": "Target go-live date",
+          "isRequired": true,
+          "inputType": "date"
+        },
+        {
+          "type": "file",
+          "name": "supportingDocuments",
+          "title": "Supporting onboarding documents (optional)",
+          "description": "Attach a business registration certificate, purchasing requirements, or onboarding checklist. In this demo, files stay in your browser and are not uploaded.",
+          "allowMultiple": true,
+          "acceptedTypes": ".pdf,.png,.jpg,.jpeg,.doc,.docx",
+          "maxSize": 5242880,
+          "storeDataAsText": false
+        },
+        {
+          "type": "comment",
+          "name": "implementationNotes",
+          "title": "Implementation notes / handover instructions"
+        }
+      ]
+    },
+    {
+      "name": "review",
+      "title": "Review and create",
+      "description": "Check the key information before creating this customer record.",
+      "elements": [
+        {
+          "type": "html",
+          "name": "summaryHeading",
+          "html": "<p><strong>Customer overview</strong></p><p>Legal name: <strong>{companyName}</strong><br>Customer type: <strong>{customerType}</strong><br>Status: <strong>{customerStatus}</strong><br>Owner: <strong>{accountManager}</strong></p><p>The full contact list, billing information, and onboarding answers will be included in the form result.</p>"
+        },
+        {
+          "type": "radiogroup",
+          "name": "nextAction",
+          "title": "What should happen next?",
+          "isRequired": true,
+          "choices": [
+            "Save as a lead",
+            "Send for sales review",
+            "Start onboarding"
+          ]
+        },
+        {
+          "type": "comment",
+          "name": "internalHandoverNotes",
+          "visibleIf": "{nextAction} = 'Send for sales review' or {nextAction} = 'Start onboarding'",
+          "title": "Notes for the next team"
+        },
+        {
+          "type": "boolean",
+          "name": "confirmAccuracy",
+          "title": "I have reviewed the details and confirm they are accurate.",
+          "defaultValue": false,
+          "isRequired": true,
+          "validators": [
+            {
+              "type": "expression",
+              "text": "Please confirm before creating the customer.",
+              "expression": "{confirmAccuracy} = true"
+            }
+          ],
+          "labelTrue": "Confirmed",
+          "labelFalse": "Not confirmed"
+        }
+      ]
+    }
+  ],
+  "questionErrorLocation": "bottom",
+  "showProgressBar": true,
+  "progressBarLocation": "top",
+  "progressBarShowNavigationText": true,
+  "checkErrorsMode": "onValueChanged",
+  "pagePrevText": "Back",
+  "pageNextText": "Continue",
+  "completeText": "Create customer",
+  "widthMode": "responsive"
+}
