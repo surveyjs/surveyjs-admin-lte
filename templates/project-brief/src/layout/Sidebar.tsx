@@ -1,14 +1,16 @@
-import { HOME_URL, TEMPLATES } from './links'
+import { HOME_URL, TEMPLATE_GROUPS } from './links'
 import type { TemplateId } from './links'
 
 export default function Sidebar({
   active,
   referenceUrl,
   referenceTitle,
+  referenceLabel,
 }: {
   active: TemplateId
   referenceUrl: string
   referenceTitle: string
+  referenceLabel: string
 }) {
   return (
     <aside className="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
@@ -29,22 +31,27 @@ export default function Sidebar({
       <div className="sidebar-wrapper">
         <nav className="mt-2" aria-label="Main navigation">
           <ul className="nav sidebar-menu flex-column">
-            <li className="nav-header">SURVEYJS TEMPLATES</li>
-            {TEMPLATES.map((template) => (
-              <li className="nav-item" key={template.id}>
-                <a
-                  href={template.href}
-                  className={`nav-link ${template.id === active ? 'active' : ''}`}
-                  aria-current={template.id === active ? 'page' : undefined}
-                >
-                  <i
-                    className={`nav-icon bi ${template.icon}`}
-                    aria-hidden="true"
-                  />
-                  <p>{template.title}</p>
-                </a>
-              </li>
-            ))}
+            {TEMPLATE_GROUPS.flatMap((group) => [
+              <li className="nav-header" key={group.title}>
+                {group.title}
+              </li>,
+              ...group.templates.map((template) => (
+                <li className="nav-item" key={template.id}>
+                  <a
+                    href={template.href}
+                    className={`nav-link ${template.id === active ? 'active' : ''}`}
+                    aria-current={template.id === active ? 'page' : undefined}
+                    aria-label={template.label}
+                  >
+                    <i
+                      className={`nav-icon bi ${template.icon}`}
+                      aria-hidden="true"
+                    />
+                    <p>{template.title}</p>
+                  </a>
+                </li>
+              )),
+            ])}
             <li className="nav-header">REFERENCE</li>
             <li className="nav-item">
               <a
@@ -58,7 +65,7 @@ export default function Sidebar({
                   className="nav-icon bi bi-box-arrow-up-right"
                   aria-hidden="true"
                 />
-                <p>Original AdminLTE page</p>
+                <p>{referenceLabel}</p>
               </a>
             </li>
           </ul>
